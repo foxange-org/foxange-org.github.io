@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Foxange-Downloads</title>
+    <style>
+        /* 全局样式重置（与主页保持一致） */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background-color: #ffffff;
+            padding-bottom: 60px;
+        }
+
+        /* 1. 蓝色导航栏 */
+        .python-top-nav {
+            background-color: rgba(55, 118, 171, 1);
+            width: 100%;
+            height: 40px;
+            padding: 0 20px;
+            transition: background-color 0.3s ease;
+            margin-top: 20px;
+        }
+
+        .python-top-nav.scrolled {
+            background-color: rgba(55, 118, 171, 0.95);
+        }
+
+        .python-top-nav ul {
+            list-style: none;
+            display: flex;
+            align-items: stretch;
+            height: 100%;
+        }
+
+        .python-top-nav li {
+            display: flex;
+            align-items: center;
+            margin-right: 1px;
+        }
+
+        .python-top-nav .logo a {
+            color: #ffffff;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: bold;
+            padding: 0 15px;
+            pointer-events: none;
+        }    
+        .python-top-nav .nav-item a {
+            color: #ffffff;
+            text-decoration: none;
+            font-size: 13px;
+            padding: 0 18px;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            transition: background-color 0.2s ease;
+        }
+
+        .python-top-nav .nav-item a:hover {
+            background-color: #478fca;
+            color: #ffffff;
+        }
+
+        /* 2. 顶部快捷选项栏 */
+        .python-quick-nav {
+            background-color: #ffffff;
+            width: 100%;
+            height: 50px;
+            padding: 0 20px;
+            margin-top: 0;
+            border-bottom: 1px solid #eaeaea;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+        }
+
+        .python-quick-nav ul {
+            list-style: none;
+            display: flex;
+            gap: 100px;
+        }
+
+        .python-quick-nav .logo {
+            color: #3776ab;
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        .python-quick-nav .quick-item a {
+            color: #333333;
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.2s ease;
+        }
+
+        .python-quick-nav .quick-item a:hover {
+            color: #3776ab;
+        }
+
+        /* 3. 页面主体内容 */
+        .main-content {
+            padding: 15px 20px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+            margin-top: 55px;
+        }
+
+        /* 下载区域样式 */
+        .download-section {
+            margin: 30px 0;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border-radius: 6px;
+            border: 1px solid #eaeaea;
+        }
+
+        .download-title {
+            font-size: 18px;
+            color: #333;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eaeaea;
+        }
+
+        .download-cards {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .download-card {
+            flex: 1;
+            min-width: 280px;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 4px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            border: 1px solid #eaeaea;
+        }
+
+        .download-card h3 {
+            color: #3776ab;
+            margin-bottom: 15px;
+            font-size: 16px;
+        }
+
+        .download-info {
+            font-size: 13px;
+            color: #666;
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+
+        .download-link {
+            display: inline-block;
+            padding: 8px 16px;
+            background-color: #3776ab;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            font-size: 14px;
+            transition: background-color 0.2s ease;
+        }
+
+        .download-link:hover {
+            background-color: #255a8c;
+            color: white;
+        }
+
+        /* 版本历史区域 */
+        .version-history {
+            margin-top: 40px;
+        }
+
+        .version-history h2 {
+            color: #333;
+            font-size: 20px;
+            margin-bottom: 20px;
+        }
+
+        .version-list {
+            list-style: none;
+        }
+
+        .version-item {
+            padding: 15px 0;
+            border-bottom: 1px solid #eaeaea;
+        }
+
+        .version-item:last-child {
+            border-bottom: none;
+        }
+
+        .version-item h3 {
+            font-size: 16px;
+            margin-bottom: 8px;
+        }
+
+        .version-item p {
+            color: #666;
+            font-size: 13px;
+            margin-bottom: 10px;
+        }
+
+        /* 4. 底部多列导航栏 */
+        .python-footer-nav {
+            background-color: #f6f6f6;
+            width: 100%;
+            padding: 40px 20px;
+            border-top: 1px solid #eaeaea;
+            margin-top: 40px;
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+
+        .footer-column {
+            width: 180px;
+            margin-bottom: 20px;
+        }
+
+        .footer-column h4 {
+            color: #333333;
+            font-size: 14px;
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+
+        .footer-column ul {
+            list-style: none;
+        }
+
+        .footer-column li a {
+            color: #3776ab;
+            text-decoration: none;
+            font-size: 13px;
+            line-height: 2;
+            transition: color 0.2s ease;
+        }
+
+        .footer-column li a:hover {
+            color: #255a8c;
+            text-decoration: none;
+        }
+
+        /* 5. 底部版权栏 */
+        .python-copyright {
+            background-color: #f6f6f6;
+            width: 100%;
+            padding: 20px;
+            border-top: 1px solid #eaeaea;
+            text-align: center;
+        }
+
+        .python-copyright p {
+            color: #666666;
+            font-size: 12px;
+            line-height: 1.8;
+        }
+
+        .python-copyright a {
+            color: #3776ab;
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        .python-copyright a:hover {
+            color: #255a8c;
+        }
+        
+        /* logo样式 */
+        .setting-img{
+            width: 200px;
+            height: auto;
+            margin: 0 0 15px 0; 
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <!-- 顶部快捷选项栏 --> 
+    <nav class="python-quick-nav">
+        <ul>
+            <li class="logo">Foxange</li>
+            <li class="quick-item"><a href="https://foxange-org.github.io/about.html" target="_blank">About</a></li>
+            <li class="quick-item"><a href="https://foxange-org.github.io/downloads.html" target="_blank">News</a></li>
+            <li class="quick-item"><a href="https://foxange-org.github.io/" target="_blank">FoxPI</a></li>
+        </ul>
+    </nav>
+
+    <!-- 页面主体内容 -->
+    <div class="main-content">
+        <img src="pngFile\Foxange-logo-haveText.png" class="setting-img">
+        <h1>Download Foxange</h1>
+        <p>Get the latest versions of Foxange products for your platform.</p>
+        
+        <!-- 蓝色导航栏 -->
+        <nav class="python-top-nav" id="pythonNav">
+            <ul>
+                <li class="logo"><a href="https://foxange-org.github.io/" target="_blank">Foxange</a></li>
+                <li class="nav-item"><a href="https://foxange-org.github.io/about/" target="_blank">About</a></li>
+                <li class="nav-item"><a href="https://foxange-org.github.io/downloads.html" target="_blank">Downloads</a></li>
+                <li class="nav-item"><a href="https://foxange-org.github.io/" target="_blank">Documentation</a></li>
+                <li class="nav-item"><a href="https://foxange-org.github.io/community/" target="_blank">Community</a></li>
+                <li class="nav-item"><a href="https://foxange-org.github.io/news/" target="_blank">News</a></li>
+                <li class="nav-item"><a href="https://foxange-org.github.io/events/" target="_blank">Events</a></li>
+            </ul>
+        </nav>
+
+        <!-- 下载区域 -->
+        <div class="download-section">
+            <h2 class="download-title">Latest Releases</h2>
+            <div class="download-cards">
+                <div class="download-card">
+                    <h3>FoxangeIDE 0.0.1</h3>
+                    <div class="download-info">
+                        <p>Latest stable version</p>
+                        <p>Released: 2025-12-29</p>
+                        <p>Compatible with Windows 10/11</p>
+                        <p>File size: ~8.5 MB</p>
+                    </div>
+                    <a href="https://github.com/foxange-org/FoxangeIDE-0.0.1-Setup/archive/refs/heads/main.zip" class="download-link">Download Windows (ZIP)</a>
+                </div>
+
+                <div class="download-card">
+                    <h3>FoxangeIDE Source Code</h3>
+                    <div class="download-info">
+                        <p>Full source code repository</p>
+                        <p>Includes all latest updates</p>
+                        <p>Last updated: 2025-12-29</p>
+                    </div>
+                    <a href="https://github.com/foxange-org/FoxangeIDE-0.0.1-Setup" class="download-link">View on GitHub</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- 版本历史区域 -->
+        <div class="version-history">
+            <h2>Version History</h2>
+            <ul class="version-list">
+                <li class="version-item">
+                    <h3>FoxangeIDE 0.0.1</h3>
+                    <p>Initial release with basic functionality including code editing, syntax highlighting, and project management features.</p>
+                    <a href="https://github.com/foxange-org/FoxangeIDE-0.0.1-Setup/archive/refs/heads/main.zip" class="download-link">Download</a>
+                </li>
+                <!-- 可添加更多历史版本 -->
+            </ul>
+        </div>
+    </div>
+
+    <!-- 底部多列导航栏 -->
+    <footer class="python-footer-nav">
+        <div class="footer-container">
+            <!-- 第一列：About -->
+            <div class="footer-column">
+                <h4>About</h4>
+                <ul>
+                    <li><a href="https://foxange-org.github.io/about.html" target="_blank">About Foxange</a></li>
+                    <li><a href="https://foxange-org.github.io/about.html/apps/" target="_blank">Foxange Applications</a></li>
+                    <li><a href="https://foxange-org.github.io/about.html/quotes/" target="_blank">Quotes</a></li>
+                    <li><a href="https://foxange-org.github.io/about.html/gettingstarted/" target="_blank">Getting Started</a></li>
+                    <li><a href="https://foxange-org.github.io/about.html/help/" target="_blank">Help</a></li>
+                </ul>
+            </div>
+
+            <!-- 第二列：Downloads -->
+            <div class="footer-column">
+                <h4>Downloads</h4>
+                <ul>
+                    <li><a href="https://foxange-org.github.io/downloads.html" target="_blank">Downloads</a></li>
+                    <li><a href="https://foxange-org.github.io/downloads.html" target="_blank">Source Code</a></li>
+                    <li><a href="https://foxange-org.github.io/downloads.html" target="_blank">Windows</a></li>
+                </ul>
+            </div>
+        </div>
+    </footer>
+
+    <!-- 版权栏 -->
+    <div class="python-copyright">
+        <p>© 2023 Foxange. All rights reserved.</p>
+        <p><a href="https://foxange-org.github.io/privacy.html">Privacy Policy</a> | <a href="https://foxange-org.github.io/terms.html">Terms of Service</a></p>
+    </div>
+
+    <script>
+        const navBar = document.getElementById('pythonNav');
+        window.addEventListener('scroll', function() {
+            if (window.scrollY > 10) {
+                navBar.classList.add('scrolled');
+            } else {
+                navBar.classList.remove('scrolled');
+            }
+        });
+    </script>
+</body>
+</html>

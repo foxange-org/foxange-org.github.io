@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Foxange-Home</title>
+    <style>
+        /* 全局样式重置（消除默认干扰，和官网一致） */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background-color: #ffffff;
+            padding-bottom: 60px; /* 给底部栏预留空间 */
+        }
+
+        /* 1. 蓝色导航栏（位于Welcome下方） */
+        .python-top-nav {
+            background-color: rgba(55, 118, 171, 1);
+            width: 100%;
+            height: 40px;
+            padding: 0 20px;
+            transition: background-color 0.3s ease;
+            margin-top: 20px; /* 与上方标题保持适度间距，不拥挤 */
+        }
+
+        .python-top-nav.scrolled {
+            background-color: rgba(55, 118, 171, 0.95);
+        }
+
+        .python-top-nav ul {
+            list-style: none;
+            display: flex;
+            align-items: stretch;
+            height: 100%;
+        }
+
+        .python-top-nav li {
+            display: flex;
+            align-items: center;
+            margin-right: 1px;
+        }
+
+        .python-top-nav .logo a {
+            color: #ffffff;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: bold;
+            padding: 0 15px;
+            pointer-events: none;
+        }    
+        .python-top-nav .nav-item a {
+            color: #ffffff;
+            text-decoration: none;
+            font-size: 13px;
+            padding: 0 18px;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            transition: background-color 0.2s ease;
+        }
+
+        .python-top-nav .nav-item a:hover {
+            background-color: #478fca;
+            color: #ffffff;
+        }
+
+        /* 2. 顶部快捷选项栏（固定在最上方，不遮挡logo） */
+        .python-quick-nav {
+            background-color: #ffffff; /* 修正为白色背景，与整体风格统一 */
+            width: 100%;
+            height: 50px; /* 官网选项栏高度 */
+            padding: 0 20px;
+            margin-top: 0;
+            border-bottom: 1px solid #eaeaea; /* 底部浅灰分隔线，和官网一致 */
+            display: flex;
+            align-items: center; /* 垂直居中导航项 */
+            justify-content: center; /* 水平居中整体内容 */
+            position: fixed; /* 保持在顶部 */
+            top: 0;
+            left: 0;
+            z-index: 1000; /* 层级最高，但通过主体内容间距避免遮挡logo */
+        }
+
+        .python-quick-nav ul {
+            list-style: none; /* 去除列表默认项目符号 */
+            display: flex; /* 水平排列导航项 */
+            gap: 100px; /* 导航项之间间距，和官网一致 */
+        }
+
+        .python-quick-nav .logo {
+            color: #3776ab;
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        .python-quick-nav .quick-item a {
+            color: #333333; /* 默认深灰色文字 */
+            text-decoration: none; /* 去除下划线 */
+            font-size: 14px; /* 官网字体大小 */
+            transition: color 0.2s ease; /* hover变色过渡，更平滑 */
+        }
+
+        .python-quick-nav .quick-item a:hover {
+            color: #3776ab; /* hover变为官网标志性蓝色，无背景色变化 */
+        }
+
+        /* 3. 页面主体内容 */
+        .main-content {
+            padding: 15px 20px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+            margin-top: 55px; /* 略大于快捷栏高度50px，避免遮挡 */
+        }
+
+        /* 主页介绍区域样式 */
+        .intro-section {
+            margin: 30px 0;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        .intro-section h2 {
+            color: #3776ab;
+            margin: 20px 0 10px;
+            font-size: 20px;
+        }
+
+        .intro-section p {
+            margin-bottom: 15px;
+            font-size: 14px;
+        }
+
+        .feature-list {
+            margin: 20px 0;
+            padding-left: 25px;
+        }
+
+        .feature-list li {
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+
+        .cta-button {
+            display: inline-block;
+            margin: 20px 0;
+            padding: 10px 20px;
+            background-color: #3776ab;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            font-size: 14px;
+            transition: background-color 0.2s ease;
+        }
+
+        .cta-button:hover {
+            background-color: #255a8c;
+        }
+
+        /* 4. 底部多列导航栏 */
+        .python-footer-nav {
+            background-color: #f6f6f6; /* 官网底部浅灰背景 */
+            width: 100%;
+            padding: 40px 20px;
+            border-top: 1px solid #eaeaea; /* 顶部分隔线，和官网一致 */
+            margin-top: 40px;
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex; /* 弹性布局实现多列排列 */
+            justify-content: space-between; /* 列间距均匀分布 */
+            flex-wrap: wrap; /* 移动端自动换行，适配响应式 */
+        }
+
+        .footer-column {
+            width: 180px; /* 每列固定宽度，和官网一致 */
+            margin-bottom: 20px;
+        }
+
+        .footer-column h4 {
+            color: #333333;
+            font-size: 14px;
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+
+        .footer-column ul {
+            list-style: none; /* 去除列表项目符号 */
+        }
+
+        .footer-column li a {
+            color: #3776ab; /* 官网标志性蓝色，和顶部导航呼应 */
+            text-decoration: none; /* 去除下划线 */
+            font-size: 13px;
+            line-height: 2; /* 行高，增加选项间距，更易阅读 */
+            transition: color 0.2s ease;
+        }
+
+        .footer-column li a:hover {
+            color: #255a8c;
+            text-decoration: none;
+        }
+
+        /* 5. 底部版权栏 */
+        .python-copyright {
+            background-color: #f6f6f6;
+            width: 100%;
+            padding: 20px;
+            border-top: 1px solid #eaeaea; /* 分隔上层导航 */
+            text-align: center; /* 文字居中 */
+        }
+
+        .python-copyright p {
+            color: #666666;
+            font-size: 12px;
+            line-height: 1.8;
+        }
+
+        .python-copyright a {
+            color: #3776ab;
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        .python-copyright a:hover {
+            color: #255a8c;
+        }
+        
+        /* logo样式 */
+        .setting-img{
+            width: 200px;
+            height: auto;
+            margin: 0 0 15px 0; 
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <!-- 顶部快捷选项栏 --> 
+    <nav class="python-quick-nav">
+        <ul>
+            <li class="logo">Foxange</li>
+            <li class="quick-item"><a href="https://foxange-org.github.io/about.html" target="_blank">About</a></li>
+            <li class="quick-item"><a href="https://foxange-org.github.io/downloads.html" target="_blank">News</a></li>
+            <li class="quick-item"><a href="https://foxange-org.github.io/" target="_blank">FoxPI</a></li>
+        </ul>
+    </nav>
+
+    <!-- 页面主体内容 -->
+    <div class="main-content">
+        <img src="pngFile\Foxange-logo-haveText.png" class="setting-img">
+        <h1>Welcome to Foxange</h1>
+        <p>Powerful tools for your development journey</p>
+        
+        <!-- 蓝色导航栏 -->
+        <nav class="python-top-nav" id="pythonNav">
+            <ul>
+                <li class="logo"><a href="https://foxange-org.github.io/" target="_blank">Foxange</a></li>
+                <li class="nav-item"><a href="https://foxange-org.github.io/about/" target="_blank">About</a></li>
+                <li class="nav-item"><a href="https://foxange-org.github.io/downloads.html" target="_blank">Downloads</a></li>
+                <li class="nav-item"><a href="https://foxange-org.github.io/" target="_blank">Documentation</a></li>
+                <li class="nav-item"><a href="https://foxange-org.github.io/community/" target="_blank">Community</a></li>
+                <li class="nav-item"><a href="https://foxange-org.github.io/news/" target="_blank">News</a></li>
+                <li class="nav-item"><a href="https://foxange-org.github.io/events/" target="_blank">Events</a></li>
+            </ul>
+        </nav>
+
+        <!-- 主页介绍内容 -->
+        <div class="intro-section">
+            <h2>About Foxange</h2>
+            <p>Foxange provides innovative development tools designed to simplify your workflow and enhance productivity. Our flagship product, FoxangeIDE, offers a streamlined environment for developers of all skill levels.</p>
+
+            <h2>Key Features</h2>
+            <ul class="feature-list">
+                <li>Intuitive user interface with customizable layouts</li>
+                <li>Advanced code editing with syntax highlighting</li>
+                <li>Seamless integration with popular version control systems</li>
+            </ul>
+
+            <a href="https://foxange-org.github.io/downloads.html" class="cta-button">Download FoxangeIDE</a>
+        </div>
+    </div>
+
+    <!-- 底部多列导航栏 -->
+    <footer class="python-footer-nav">
+        <div class="footer-container">
+            <!-- 第一列：About -->
+            <div class="footer-column">
+                <h4>About</h4>
+                <ul>
+                    <li><a href="https://foxange-org.github.io/about.html" target="_blank">About Foxange</a></li>
+                    <li><a href="https://foxange-org.github.io/about.html/apps/" target="_blank">Foxange Applications</a></li>
+                    <li><a href="https://foxange-org.github.io/about.html/quotes/" target="_blank">Quotes</a></li>
+                    <li><a href="https://foxange-org.github.io/about.html/gettingstarted/" target="_blank">Getting Started</a></li>
+                    <li><a href="https://foxange-org.github.io/about.html/help/" target="_blank">Help</a></li>
+                </ul>
+            </div>
+
+            <!-- 第二列：Downloads -->
+            <div class="footer-column">
+                <h4>Downloads</h4>
+                <ul>
+                    <li><a href="https://foxange-org.github.io/downloads.html" target="_blank">Downloads</a></li>
+                    <li><a href="https://foxange-org.github.io/downloads.html" target="_blank">Source Code</a></li>
+                    <li><a href="https://foxange-org.github.io/downloads.html" target="_blank">Windows</a></li>
+                </ul>
+            </div>
+        </div>
+    </footer>
+
+    <!-- 版权栏 -->
+    <div class="python-copyright">
+        <p>© 2023 Foxange. All rights reserved.</p>
+        <p><a href="https://foxange-org.github.io/privacy.html">Privacy Policy</a> | <a href="https://foxange-org.github.io/terms.html">Terms of Service</a></p>
+    </div>
+
+    <script>
+        const navBar = document.getElementById('pythonNav');
+        window.addEventListener('scroll', function() {
+            if (window.scrollY > 10) {
+                navBar.classList.add('scrolled');
+            } else {
+                navBar.classList.remove('scrolled');
+            }
+        });
+    </script>
+</body>
+</html>
